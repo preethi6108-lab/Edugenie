@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EduGenie - Learning Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>🎓 EduGenie</h1>
+    <p>Google Gemini Powered Learning Assistant</p>
+
+    <input type="text" id="topic" placeholder="Enter your topic or question">
+
+    <div class="buttons">
+        <button onclick="askQuestion()">Ask Question</button>
+        <button onclick="explainTopic()">Explain</button>
+        <button onclick="generateQuiz()">Generate Quiz</button>
+        <button onclick="summarizeText()">Summarize</button>
+        <button onclick="learningPath()">Learning Path</button>
+    </div>
+
+    <div id="result"></div>
+</div>
+
+<script>
+async function callAPI(endpoint, parameter, value) {
+    const response = await fetch(
+        `${endpoint}?${parameter}=${encodeURIComponent(value)}`
+    );
+    const data = await response.json();
+    document.getElementById("result").innerText =
+        JSON.stringify(data, null, 2);
+}
+
+function askQuestion() {
+    callAPI("/qna", "question", document.getElementById("topic").value);
+}
+
+function explainTopic() {
+    callAPI("/explain", "topic", document.getElementById("topic").value);
+}
+
+function generateQuiz() {
+    callAPI("/quiz", "topic", document.getElementById("topic").value);
+}
+
+function summarizeText() {
+    callAPI("/summarize", "text", document.getElementById("topic").value);
+}
+
+function learningPath() {
+    callAPI("/learning-path", "topic", document.getElementById("topic").value);
+}
+</script>
+</body>
+</html>
